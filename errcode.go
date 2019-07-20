@@ -4,5 +4,5 @@ import "errors"
 
 var (
 	ErrNotAllowEmptyParam     = errors.New("param cannot be empty")
-	ErrConnectByteDanceServer = errors.New("err connecet ByteDance server")
+	ErrConnectByteDanceServer = errors.New("err connect ByteDance server")
 )

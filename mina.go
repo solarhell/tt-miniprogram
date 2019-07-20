@@ -1,28 +1,26 @@
 package tt_miniprogram
 
 import (
-	"encoding/json"
 	"errors"
+	"github.com/imroc/req"
 )
 
-func (c *Client) Login(appId, appSecret, code, anonymousCode string) (lr LoginResponse, err error) {
+func Login(appId, appSecret, code, anonymousCode string) (lr LoginResponse, err error) {
 	api, err := CodeToURL(appId, appSecret, code, anonymousCode)
 	if err != nil {
 		return lr, err
 	}
 
-	res, err := c.client.Get(api)
-
+	r, err := req.Get(api)
 	if err != nil {
 		return lr, err
 	}
-	defer res.Body.Close()
 
-	if res.StatusCode != 200 {
+	if r.Response().StatusCode != 200 {
 		return lr, ErrConnectByteDanceServer
 	}
 
-	err = json.NewDecoder(res.Body).Decode(&lr)
+	err = r.ToJSON(&lr)
 	if err != nil {
 		return lr, err
 	}

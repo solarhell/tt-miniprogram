@@ -17,25 +17,11 @@ package main
 
 import (
 	TM "github.com/solarhell/tt-miniprogram"
-	"net/http"
-	"time"
 )
 
 func main() {
-	c := TM.NewClient(&http.Client{
-		Timeout: 30 * time.Second,
-		Transport: &TM.DebugRequestTransport{
-			RequestHeader:  true,
-			RequestBody:    true,
-			ResponseHeader: true,
-			ResponseBody:   true,
-			Transport: &http.Transport{
-				IdleConnTimeout: 30 * time.Second,
-	        },
-		},
-	})
 
-	ui, err := c.Login("appid", "secret", "code")
+	ui, err := TM.Login("appid", "secret", "code")
 	...
 }
 ```
