@@ -25,3 +25,16 @@ func TestDecryptUserInfo(t *testing.T) {
 
 	t.Log("Openid", ui.Openid)
 }
+
+func TestDecryptPhoneNumber(t *testing.T) {
+	ssk := "xxx"
+	encryptedData := "xxx=="
+	iv := "xxx=="
+
+	phone, err := DecryptPhoneNumber(ssk, encryptedData, iv)
+	if err != nil {
+		t.Error(err)
+	}
+
+	t.Log("phone", phone.PhoneNumber)
+}

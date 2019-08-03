@@ -28,6 +28,13 @@ type Userinfo struct {
 	Watermark watermark `json:"watermark"`
 }
 
+type Phone struct {
+	CountryCode     string    `json:"countryCode"`
+	PhoneNumber     string    `json:"phoneNumber"`
+	PurePhoneNumber string    `json:"purePhoneNumber"`
+	Watermark       watermark `json:"watermark"`
+}
+
 // https://developer.toutiao.com/docs/open/dataCodec.html#%E6%A0%A1%E9%AA%8C%E6%95%B0%E6%8D%AE%E5%90%88%E6%B3%95%E6%80%A7
 func validate(rawData, sessionKey, signature string) bool {
 	r := sha1.Sum([]byte(rawData + sessionKey))
@@ -48,6 +55,17 @@ func DecryptUserInfo(rawData, encryptedData, signature, iv, sessionKey string) (
 	}
 
 	err = json.Unmarshal(bts, &ui)
+	return
+}
+
+// https://developer.toutiao.com/docs/open/dataCodec.html#%E8%A7%A3%E5%AF%86%E6%95%8F%E6%84%9F%E6%95%B0%E6%8D%AE
+func DecryptPhoneNumber(sessionKey, encryptedData, iv string) (phone Phone, err error) {
+	bts, err := CBCDecrypt(sessionKey, encryptedData, iv)
+	if err != nil {
+		return
+	}
+
+	err = json.Unmarshal(bts, &phone)
 	return
 }
 
